@@ -4,6 +4,8 @@
 // Downsides:
 // - Server is Grey-listed (Get rekt I guess)
 // - Client log will be polluted with 'Material Not found' for missing overlays
+// - Client will still see the grain ONLY in lobby, once they join the game
+// it will disapear
 
 // TODO: Make the mut client side only, servers shouldn't trigger this at all
 
@@ -19,10 +21,20 @@ replication
 }
 
 // Disable Selected options Before player starts
-simulated function PreBeginPlay()
+simulated function PostNetBeginPlay()
 {
-  DisableHUDEffects();
-  DisableMonsterEffects();
+  if (!isServer())
+  {
+    DisableHUDEffects();
+    DisableMonsterEffects();
+  }
+  else MutLog("-----|| Server detected - 'HUD' will only modify clients ||-----");
+}
+
+simulated function bool isServer()
+{
+  if (Level.NetMode != NM_Client) return true;
+  else return false;
 }
 
 simulated function DisableHUDEffects()
@@ -65,12 +77,12 @@ simulated function DisableSirenStalkerSlash()
   Class'DamTypeSlashingAttack'.Default.HUDUberDamageTex=None;
 }
 
-function TimeStampLog(coerce string s)
+simulated function TimeStampLog(coerce string s)
 {
   log("["$Level.TimeSeconds$"s]" @ s, 'HUDEffects');
 }
 
-function MutLog(string s)
+simulated function MutLog(string s)
 {
   log(s, 'HUDEffects');
 }
