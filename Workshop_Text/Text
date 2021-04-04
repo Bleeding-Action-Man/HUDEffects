@@ -1,0 +1,65 @@
+Disable HUD effects that might be annoying for some:
+
+- Grain Spectator overlay
+- Near Death overlay (Red Screen)
+- Buring/On Fire overlay
+- Sepia color overlay (Check Screenshots, it's a whole neeewwwww woooorld)
+- Bloat Vomit overlay
+- Siren/Stalker red scratch overlay
+
+[h1][b][u]Important Notes[/u][/b][/h1]
+
+- You will still see the film grain ONLY when you are in lobby, once you start the game it will be gone from spectator/death screen
+- Clients log files will be polluted with 'No Material Found' logs. Server Logs won't have this issue because the mutator doesn't run on the servers at all
+
+[h1][b][u]Whitelist Status[/u][/b][/h1]
+
+- No
+
+[h1][b][u]Credits[/u][/b][/h1]
+
+- Flame, Essence, Dr.TerV & Me
+
+[h1][b][u]Number Of Files[/u][/b][/h1]
+
+- 3
+
+[h1][b][u]Sample Config[/u][/b][/h1]
+
+[code]
+[HUDEffects.HUDEffects]
+# Removes the Grain filter that shows when you die, or in lobby, or in spectator mode
+bSpectatorOverlay=False
+# Removes the 'Red' pulsating colors if you are almost dead
+bNearDeath=False
+# Removes buring overlay, if it's there
+bFireOverlay=False
+# IMHO Best one yet. This removes the 'Sepia' overlay that shows after you start the match
+# Try with/without it and see the difference!
+bShittySepia=False
+# Monster related changes
+# Removes Bloat vomit overlay
+bVomitScreen=False
+# Removes Siren/Stalker slash overlay
+bSlashOverlay=False
+[/code]
+
+[h1][b][u]File Names[/u][/b][/h1]
+
+- \System\HUDEffects.u
+- \System\HUDEffects.ucl
+- \System\HUDEffects_Config.ini
+
+[h1][b][u]Usage[/u][/b][/h1]
+
+1- Subscribe or download manually (Recommended)
+2- Launch the game and wait to see 'Completed'
+3- Restart the game and you can see the mutators in your list
+
+[h1][b][u]Class Names[/u][/b][/h1]
+
+- Mut: AreYouVIP.AreYouVIP
+
+[h1][b][u]Manual Download Links (Recommended)[/u][/b][/h1]
+
+Github: https://github.com/Vel-San/HUDEffects/releases/tag/v1.0
