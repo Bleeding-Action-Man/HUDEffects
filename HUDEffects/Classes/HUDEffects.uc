@@ -33,7 +33,7 @@ simulated function PostNetBeginPlay()
 
 simulated function bool isServer()
 {
-  if (Level.NetMode != NM_Client) return true;
+  if (Level.NetMode == NM_DedicatedServer) return true;
   else return false;
 }
 
@@ -90,7 +90,7 @@ simulated function MutLog(string s)
 defaultproperties
 {
   GroupName="KF-HUDEffectsMut"
-  FriendlyName="HUD Effects Disabler - v1.0"
+  FriendlyName="HUD Effects Disabler - v1.1"
   Description="Disable/enable HUD effects (Film grain, Near death screen, Fire overlay, Sepia Color overlay, Bloat vomit, Siren/Stalker slash)"
   bAlwaysRelevant=True
   RemoteRole=ROLE_SimulatedProxy
