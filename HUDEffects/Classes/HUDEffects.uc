@@ -1,23 +1,25 @@
 // Written by Dr.TerV for killingfloor.ru
 // Fixed by Essence & Vel-San
-// Last Update: April 4th 2021
+// Last Update: April 9th 2021
 // Downsides:
 // - Server is Grey-listed (Get rekt I guess)
 // - Client log will be polluted with 'Material Not found' for missing overlays
-// - Client will still see the grain ONLY in lobby, once they join the game
-// it will disapear
-
-// TODO: Make the mut client side only, servers shouldn't trigger this at all
+//    > Can be fixed by simply replaceing 'None' with a transparent material
+// - Client will still see the grain ONLY in lobby, once they join the game it will disapear
 
 class HUDEffects extends Mutator
   Config(HUDEffects_Config);
 
-var config bool bSpectatorOverlay, bNearDeath, bFireOverlay, bShittySepia, bVomitScreen, bSlashOverlay;
+var config bool bSpectatorOverlay, bNearDeath, bFireOverlay,
+                bShittySepia, bVomitScreen, bSlashOverlay,
+                bDoorUseMessage, bDoorSealedMessage, bZedTimeMessage;
 
 replication
 {
   reliable if(Role==ROLE_Authority)
-  bSpectatorOverlay, bNearDeath, bFireOverlay, bShittySepia, bVomitScreen, bSlashOverlay;
+  bSpectatorOverlay, bNearDeath, bFireOverlay,
+  bShittySepia, bVomitScreen, bSlashOverlay,
+  bDoorUseMessage, bDoorSealedMessage, bZedTimeMessage;
 }
 
 // Disable Selected options Before player starts
@@ -28,7 +30,7 @@ simulated function PostNetBeginPlay()
     DisableHUDEffects();
     DisableMonsterEffects();
   }
-  else MutLog("-----|| Server detected - 'HUD' will only modify clients ||-----");
+  else MutLog("-----|| Server detected - 'HUD' will only modify clients to avoid log file flooding ||-----");
 }
 
 simulated function bool isServer()
@@ -45,6 +47,9 @@ simulated function DisableHUDEffects()
   if(!bNearDeath) class'HUDKillingFloor'.Default.NearDeathOverlay=None;
   if(!bFireOverlay) class'HUDKillingFloor'.Default.FireOverlay=None;
   if(!bShittySepia) class'HUDKillingFloor'.Default.VisionOverlay=None;
+  if(!bDoorUseMessage) class'WaitingMessage'.Default.DoorMessage="";
+  if(!bDoorSealedMessage) class'WaitingMessage'.Default.WeldedShutMessage="";
+  if(!bZedTimeMessage) class'WaitingMessage'.Default.ZEDTimeActiveMessage="";
 }
 
 simulated function DisableMonsterEffects()
@@ -90,8 +95,8 @@ simulated function MutLog(string s)
 defaultproperties
 {
   GroupName="KF-HUDEffectsMut"
-  FriendlyName="HUD Effects Disabler - v1.1"
-  Description="Disable/enable HUD effects (Film grain, Near death screen, Fire overlay, Sepia Color overlay, Bloat vomit, Siren/Stalker slash)"
+  FriendlyName="HUD Effects Disabler - v1.2"
+  Description="Disable/enable HUD effects: Film grain, Near death screen, Fire overlay, Sepia Color overlay, Bloat vomit, Siren/Stalker slash & many more"
   bAlwaysRelevant=True
   RemoteRole=ROLE_SimulatedProxy
   bAddToServerPackages=True
