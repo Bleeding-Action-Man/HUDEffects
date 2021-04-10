@@ -96,7 +96,7 @@ defaultproperties
 {
   GroupName="KF-HUDEffectsMut"
   FriendlyName="HUD Effects Disabler - v1.2"
-  Description="Disable/enable HUD effects: Film grain, Near death screen, Fire overlay, Sepia Color overlay, Bloat vomit, Siren/Stalker slash & many more"
+  Description="Disable/enable HUD effects: Film grain, Near death screen, Fire overlay, Sepia Color overlay, Bloat vomit, Siren/Stalker slash, Door Use + Welding Messages & ZED Time message;"
   bAlwaysRelevant=True
   RemoteRole=ROLE_SimulatedProxy
   bAddToServerPackages=True
