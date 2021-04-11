@@ -1,7 +1,7 @@
 // Custom class to disable SmokeTrail from all weapons
-// Extending M79 Projectile + M79 itself
+// Extending LAW Projectile + LAW itself
 
-class M79NoSmoke extends M79GrenadeProjectile;
+class LAWNoSmoke extends LAWProj;
 
 // Override to remove smoke on ALL CLIENTS and not just dedicated servers
 simulated function PostBeginPlay()

@@ -70,8 +70,8 @@ simulated function DisableMonsterEffects()
 
 simulated function DisableWeaponEffects()
 {
-  // TODO: Add support for all weapons that have 'Rocket Trail'
-  // TODO: Add option for 'Grenade Explosion' & not just trail
+  // TODO: Add support for all weapons that have 'Rocket Trail' except SeekerSix, all my homies hate SeekerSix
+  // TODO: Maybe add option for 'Rocket/Grenade Smoke Explosion' & not just trail ?
   MutLog("-----|| Disabling Selected Weapon Effects ||-----");
   if(!bSmokeTrail) DisableSmokeTrail();
 }
@@ -95,8 +95,15 @@ simulated function DisableSirenStalkerSlash()
 
 simulated function DisableSmokeTrail()
 {
-  MutLog("-----|| Disabling M79 Smoke Trail Effect ||-----");
+  MutLog("-----|| Disabling Grenade Launchers Smoke Trail Effect ||-----");
   Class'M79Fire'.Default.ProjectileClass=Class'HUDEffects.M79NoSmoke';
+  Class'GoldenM79Fire'.Default.ProjectileClass=Class'HUDEffects.M79NoSmoke';
+  Class'M32Fire'.Default.ProjectileClass=Class'HUDEffects.M32NoSmoke';
+  Class'CamoM32Fire'.Default.ProjectileClass=Class'HUDEffects.M32NoSmoke';
+  Class'M203Fire'.Default.ProjectileClass=Class'HUDEffects.M203NoSmoke';
+  Class'LAWFire'.Default.ProjectileClass=Class'HUDEffects.LAWNoSmoke';
+  Class'FlareRevolverFire'.Default.ProjectileClass=Class'HUDEffects.FlareRevolversNoSmoke';
+  Class'DualFlareRevolverFire'.Default.ProjectileClass=Class'HUDEffects.FlareRevolversNoSmoke';
 }
 
 simulated function TimeStampLog(coerce string s)

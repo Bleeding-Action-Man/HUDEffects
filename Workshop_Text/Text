@@ -1,14 +1,25 @@
 Disable HUD effects that might be annoying for some:
 
+[b]HUD Related[/b]
 - Grain Spectator overlay
 - Near Death overlay (Red Screen)
 - Buring/On Fire overlay
 - Sepia color overlay (Check Screenshots, it's a whole neeewwwww woooorld)
-- Bloat Vomit overlay
-- Siren/Stalker red scratch overlay
 - Door Use Messages
 - Door Welding Messages
 - ZED Time Messages
+
+[b]Monster Related[/b]
+- Bloat Vomit overlay
+- Siren/Stalker red scratch overlay
+
+[b]Weapon Related[/b]
+- Smoke Trail from Rocket/Grenade Launchers
+    - M79 + Golden
+    - M32 + Camo
+    - M203
+    - LAW
+    - Flare + Dual Flare revolvers
 
 [h1][b][u]Important Notes[/u][/b][/h1]
 
@@ -31,6 +42,7 @@ Disable HUD effects that might be annoying for some:
 
 [code]
 [HUDEffects.HUDEffects]
+############# HUD Related #############
 # Removes the Grain filter that shows when you die, or in lobby, or in spectator mode
 bSpectatorOverlay=False
 # Removes the 'Red' pulsating colors if you are almost dead
@@ -40,17 +52,20 @@ bFireOverlay=False
 # IMHO Best one yet. This removes the 'Sepia' overlay that shows after you start the match
 # Try with/without it and see the difference!
 bShittySepia=False
-# Monster related changes
+# Removes "Press XXX to open door" message
+bDoorUseMessage=False
+# Removes "Door is welded" message
+bDoorSealedMessage=False
+# Removes 'Zed Time Activated' message
+bZedTimeMessage=False
+############# Monster related #############
 # Removes Bloat vomit overlay
 bVomitScreen=False
 # Removes Siren/Stalker slash overlay
 bSlashOverlay=False
-# Removes "Press XXX to open door" message
-bDoorUseMessage=True
-# Removes "Door is welded" message
-bDoorSealedMessage=True
-# Removes 'Zed Time Activated' message
-bZedTimeMessage=False
+############# Weapon Related #############
+# Smoke that shows after e.g. M32 Grenade Launcher, M79 Grenade Launcher, LAW
+bSmokeTrail=False
 [/code]
 
 [h1][b][u]File Names[/u][/b][/h1]
