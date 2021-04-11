@@ -12,14 +12,16 @@ class HUDEffects extends Mutator
 
 var config bool bSpectatorOverlay, bNearDeath, bFireOverlay,
                 bShittySepia, bVomitScreen, bSlashOverlay,
-                bDoorUseMessage, bDoorSealedMessage, bZedTimeMessage;
+                bDoorUseMessage, bDoorSealedMessage, bZedTimeMessage,
+                bSmokeTrail;
 
 replication
 {
   reliable if(Role==ROLE_Authority)
   bSpectatorOverlay, bNearDeath, bFireOverlay,
   bShittySepia, bVomitScreen, bSlashOverlay,
-  bDoorUseMessage, bDoorSealedMessage, bZedTimeMessage;
+  bDoorUseMessage, bDoorSealedMessage, bZedTimeMessage,
+  bSmokeTrail;
 }
 
 // Disable Selected options Before player starts
@@ -29,6 +31,7 @@ simulated function PostNetBeginPlay()
   {
     DisableHUDEffects();
     DisableMonsterEffects();
+    DisableWeaponEffects();
   }
   else MutLog("-----|| Server detected - 'HUD' will only modify clients to avoid log file flooding ||-----");
 }
@@ -42,7 +45,6 @@ simulated function bool isServer()
 simulated function DisableHUDEffects()
 {
   MutLog("-----|| Disabling Selected HUD Effects ||-----");
-  // HUD Class Effects
   if(!bSpectatorOverlay) class'HUDKillingFloor'.Default.SpectatorOverlay=None;
   if(!bNearDeath) class'HUDKillingFloor'.Default.NearDeathOverlay=None;
   if(!bFireOverlay) class'HUDKillingFloor'.Default.FireOverlay=None;
@@ -54,6 +56,7 @@ simulated function DisableHUDEffects()
 
 simulated function DisableMonsterEffects()
 {
+  MutLog("-----|| Disabling Selected Monster Effects ||-----");
   // TODO: Remove 'Blood' effect from clot damage or crawler etc..
   // TODO: Check all monster HUD effects
   // TODO: Check if we can completey remove screen shake without creating extra class (Might be impossible tho :/)
@@ -63,6 +66,14 @@ simulated function DisableMonsterEffects()
 
   // Slash hit overlays
   if(!bSlashOverlay) DisableSirenStalkerSlash();
+}
+
+simulated function DisableWeaponEffects()
+{
+  // TODO: Add support for all weapons that have 'Rocket Trail'
+  // TODO: Add option for 'Grenade Explosion' & not just trail
+  MutLog("-----|| Disabling Selected Weapon Effects ||-----");
+  if(!bSmokeTrail) DisableSmokeTrail();
 }
 
 simulated function DisableVomit()
@@ -82,6 +93,12 @@ simulated function DisableSirenStalkerSlash()
   Class'DamTypeSlashingAttack'.Default.HUDUberDamageTex=None;
 }
 
+simulated function DisableSmokeTrail()
+{
+  MutLog("-----|| Disabling M79 Smoke Trail Effect ||-----");
+  Class'M79Fire'.Default.ProjectileClass=Class'HUDEffects.M79NoSmoke';
+}
+
 simulated function TimeStampLog(coerce string s)
 {
   log("["$Level.TimeSeconds$"s]" @ s, 'HUDEffects');
@@ -95,7 +112,7 @@ simulated function MutLog(string s)
 defaultproperties
 {
   GroupName="KF-HUDEffectsMut"
-  FriendlyName="HUD Effects Disabler - v1.2"
+  FriendlyName="HUD Effects Disabler - v1.3"
   Description="Disable/enable HUD effects: Film grain, Near death screen, Fire overlay, Sepia Color overlay, Bloat vomit, Siren/Stalker slash, Door Use + Welding Messages & ZED Time message;"
   bAlwaysRelevant=True
   RemoteRole=ROLE_SimulatedProxy

@@ -6,6 +6,9 @@ Disable HUD effects that might be annoying for some:
 - Sepia color overlay (Check Screenshots, it's a whole neeewwwww woooorld)
 - Bloat Vomit overlay
 - Siren/Stalker red scratch overlay
+- Door Use Messages
+- Door Welding Messages
+- ZED Time Messages
 
 [h1][b][u]Important Notes[/u][/b][/h1]
 
@@ -64,8 +67,8 @@ bZedTimeMessage=False
 
 [h1][b][u]Class Names[/u][/b][/h1]
 
-- Mut: AreYouVIP.AreYouVIP
+- Mut: HUDEffects.HUDEffects
 
 [h1][b][u]Manual Download Links (Recommended)[/u][/b][/h1]
 
-Github: https://github.com/Vel-San/HUDEffects/releases/tag/v1.2
+Github: https://github.com/Vel-San/HUDEffects/releases/tag/v1.3
