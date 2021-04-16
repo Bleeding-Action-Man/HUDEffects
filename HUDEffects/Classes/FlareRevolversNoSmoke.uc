@@ -6,15 +6,6 @@ class FlareRevolversNoSmoke extends FlareRevolverProjectile;
 // Override to remove smoke on ALL CLIENTS and not just dedicated servers
 simulated function PostBeginPlay()
 {
-
-  if ( Level.NetMode != NM_DedicatedServer && Level.NetMode != NM_ListenServer && Level.NetMode != NM_Client )
-  {
-    if ( !PhysicsVolume.bWaterVolume )
-    {
-      FlameTrail = Spawn(FlameTrailEmitterClass,self);
-    }
-  }
-
   OrigLoc = Location;
 
   if( !bDud )

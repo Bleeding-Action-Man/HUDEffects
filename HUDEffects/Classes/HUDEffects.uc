@@ -10,30 +10,63 @@
 class HUDEffects extends Mutator
   Config(HUDEffects_Config);
 
-var config bool bSpectatorOverlay, bNearDeath, bFireOverlay,
-                bShittySepia, bVomitScreen, bSlashOverlay,
-                bDoorUseMessage, bDoorSealedMessage, bZedTimeMessage,
-                bSmokeTrail;
+// Config Vars & Structs
+struct HUD_Effects
+{
+  var config bool bSpectatorOverlay, bNearDeath, bFireOverlay,
+                  bShittySepia, bDoorUseMessage, bDoorSealedMessage, bZedTimeMessage;
+};
+
+struct ZED_Effects
+{
+  var config bool bVomitScreen, bSlashOverlay;
+};
+
+struct Weapon_Effects
+{
+  var config bool bSmokeTrail;
+};
+
+// I'm retarded & have no clue, even after researching a shitton on the topic
+// Why COUNT=1 results in an Illegal expression...
+const COUNT = 2;
+
+// 3 Lists of the above structs
+var() config HUD_Effects aHUD_Effects[COUNT];
+var() config ZED_Effects aZED_Effects[COUNT];
+var() config Weapon_Effects aWeapon_Effects[COUNT];
+
+// 3 Local var lists of the above structs
+var HUD_Effects TmpHUD_Effects[COUNT];
+var ZED_Effects TmpZED_Effects[COUNT];
+var Weapon_Effects TmpWeapon_Effects[COUNT];
 
 replication
 {
   reliable if(Role==ROLE_Authority)
-  bSpectatorOverlay, bNearDeath, bFireOverlay,
-  bShittySepia, bVomitScreen, bSlashOverlay,
-  bDoorUseMessage, bDoorSealedMessage, bZedTimeMessage,
-  bSmokeTrail;
+             aHUD_Effects, aZED_Effects, aWeapon_Effects,
+             TmpHUD_Effects, TmpZED_Effects, TmpWeapon_Effects;
 }
 
 // Disable Selected options Before player starts
-simulated function PostNetBeginPlay()
+simulated function PostBeginPlay()
 {
+  setTimer(1, false);
+}
+
+simulated function Timer()
+{
+  // Get Server Vars
+  GetServerVars();
+
   if (!isServer())
   {
     DisableHUDEffects();
-    DisableMonsterEffects();
-    DisableWeaponEffects();
   }
-  else MutLog("-----|| Server detected - 'HUD' will only modify clients to avoid log file flooding ||-----");
+  else MutLog("-----|| Server detected - Modifying only 'Client' HUDs to avoid log file flooding ||-----");
+
+  DisableMonsterEffects();
+  DisableWeaponEffects();
 }
 
 simulated function bool isServer()
@@ -45,13 +78,13 @@ simulated function bool isServer()
 simulated function DisableHUDEffects()
 {
   MutLog("-----|| Disabling Selected HUD Effects ||-----");
-  if(!bSpectatorOverlay) class'HUDKillingFloor'.Default.SpectatorOverlay=None;
-  if(!bNearDeath) class'HUDKillingFloor'.Default.NearDeathOverlay=None;
-  if(!bFireOverlay) class'HUDKillingFloor'.Default.FireOverlay=None;
-  if(!bShittySepia) class'HUDKillingFloor'.Default.VisionOverlay=None;
-  if(!bDoorUseMessage) class'WaitingMessage'.Default.DoorMessage="";
-  if(!bDoorSealedMessage) class'WaitingMessage'.Default.WeldedShutMessage="";
-  if(!bZedTimeMessage) class'WaitingMessage'.Default.ZEDTimeActiveMessage="";
+  if(!TmpHUD_Effects[0].bSpectatorOverlay) class'HUDKillingFloor'.Default.SpectatorOverlay=None;
+  if(!TmpHUD_Effects[0].bNearDeath) class'HUDKillingFloor'.Default.NearDeathOverlay=None;
+  if(!TmpHUD_Effects[0].bFireOverlay) class'HUDKillingFloor'.Default.FireOverlay=None;
+  if(!TmpHUD_Effects[0].bShittySepia) class'HUDKillingFloor'.Default.VisionOverlay=None;
+  if(!TmpHUD_Effects[0].bDoorUseMessage) class'WaitingMessage'.Default.DoorMessage="";
+  if(!TmpHUD_Effects[0].bDoorSealedMessage) class'WaitingMessage'.Default.WeldedShutMessage="";
+  if(!TmpHUD_Effects[0].bZedTimeMessage) class'WaitingMessage'.Default.ZEDTimeActiveMessage="";
 }
 
 simulated function DisableMonsterEffects()
@@ -62,10 +95,10 @@ simulated function DisableMonsterEffects()
   // TODO: Check if we can completey remove screen shake without creating extra class (Might be impossible tho :/)
 
   // Bloat Vomit
-  if(!bVomitScreen) DisableVomit();
+  if(!TmpZED_Effects[0].bVomitScreen) DisableVomit();
 
   // Slash hit overlays
-  if(!bSlashOverlay) DisableSirenStalkerSlash();
+  if(!TmpZED_Effects[0].bSlashOverlay) DisableSirenStalkerSlash();
 }
 
 simulated function DisableWeaponEffects()
@@ -73,7 +106,7 @@ simulated function DisableWeaponEffects()
   // TODO: Add support for all weapons that have 'Rocket Trail' except SeekerSix, all my homies hate SeekerSix
   // TODO: Maybe add option for 'Rocket/Grenade Smoke Explosion' & not just trail ?
   MutLog("-----|| Disabling Selected Weapon Effects ||-----");
-  if(!bSmokeTrail) DisableSmokeTrail();
+  if(!TmpWeapon_Effects[0].bSmokeTrail) DisableSmokeTrail();
 }
 
 simulated function DisableVomit()
@@ -106,6 +139,15 @@ simulated function DisableSmokeTrail()
   Class'DualFlareRevolverFire'.Default.ProjectileClass=Class'HUDEffects.FlareRevolversNoSmoke';
 }
 
+simulated function GetServerVars()
+{
+  MutLog("-----|| Fetching Server Vars ||-----");
+
+  TmpHUD_Effects[0] = aHUD_Effects[0];
+  TmpZED_Effects[0] = aZED_Effects[0];
+  TmpWeapon_Effects[0] = aWeapon_Effects[0];
+}
+
 simulated function TimeStampLog(coerce string s)
 {
   log("["$Level.TimeSeconds$"s]" @ s, 'HUDEffects');
@@ -119,8 +161,8 @@ simulated function MutLog(string s)
 defaultproperties
 {
   GroupName="KF-HUDEffectsMut"
-  FriendlyName="HUD Effects Disabler - v1.3"
-  Description="Disable/enable HUD effects: Film grain, Near death screen, Fire overlay, Sepia Color overlay, Bloat vomit, Siren/Stalker slash, Door Use + Welding Messages & ZED Time message;"
+  FriendlyName="HUD Effects Disabler - v1.4"
+  Description="Disable annoying HUD effects; Made by Flame, Essence, Dr.Terv & Vel-San."
   bAlwaysRelevant=True
   RemoteRole=ROLE_SimulatedProxy
   bAddToServerPackages=True

@@ -10,15 +10,6 @@ simulated function PostBeginPlay()
 
   BCInverse = 1 / BallisticCoefficient;
 
-  if ( Level.NetMode != NM_DedicatedServer && Level.NetMode != NM_ListenServer && Level.NetMode != NM_Client )
-  {
-    SmokeTrail = Spawn(class'PanzerfaustTrail',self);
-    SmokeTrail.SetBase(self);
-    SmokeRotation.Pitch = 32768;
-    SmokeTrail.SetRelativeRotation(SmokeRotation);
-    //Corona = Spawn(class'KFMod.KFLAWCorona',self);
-  }
-
   OrigLoc = Location;
 
   if( !bDud )
