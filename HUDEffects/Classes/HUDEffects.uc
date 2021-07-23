@@ -32,25 +32,29 @@ struct Weapon_Effects
 const COUNT = 2;
 
 // 3 Lists of the above structs
-var() config HUD_Effects aHUD_Effects[COUNT];
-var() config ZED_Effects aZED_Effects[COUNT];
-var() config Weapon_Effects aWeapon_Effects[COUNT];
+var config HUD_Effects aHUD_Effects[COUNT];
+var config ZED_Effects aZED_Effects[COUNT];
+var config Weapon_Effects aWeapon_Effects[COUNT];
 
 // 3 Local var lists of the above structs
 var HUD_Effects TmpHUD_Effects[COUNT];
 var ZED_Effects TmpZED_Effects[COUNT];
 var Weapon_Effects TmpWeapon_Effects[COUNT];
 
+var config string sHUDType;
+
 replication
 {
   reliable if(Role==ROLE_Authority)
              aHUD_Effects, aZED_Effects, aWeapon_Effects,
-             TmpHUD_Effects, TmpZED_Effects, TmpWeapon_Effects;
+             TmpHUD_Effects, TmpZED_Effects, TmpWeapon_Effects,
+             sHUDType;
 }
 
 // Disable Selected options Before player starts
 simulated function PostBeginPlay()
 {
+  if (Level.NetMode != NM_Client) MutLog("-----|| Detected HUD: "$KFGameType(Level.Game).HUDType$" ||-----");
   setTimer(1, false);
 }
 
@@ -77,11 +81,15 @@ simulated function bool isServer()
 
 simulated function DisableHUDEffects()
 {
+  local class<HUDKillingFloor> BaseHUD;
+
+  BaseHUD = class<HUDKillingFloor>(DynamicLoadObject(sHUDType, class'Class'));
+
   MutLog("-----|| Disabling Selected HUD Effects ||-----");
-  if(!TmpHUD_Effects[0].bSpectatorOverlay) class'HUDKillingFloor'.Default.SpectatorOverlay=None;
-  if(!TmpHUD_Effects[0].bNearDeath) class'HUDKillingFloor'.Default.NearDeathOverlay=None;
-  if(!TmpHUD_Effects[0].bFireOverlay) class'HUDKillingFloor'.Default.FireOverlay=None;
-  if(!TmpHUD_Effects[0].bShittySepia) class'HUDKillingFloor'.Default.VisionOverlay=None;
+  if(!TmpHUD_Effects[0].bSpectatorOverlay) BaseHUD.Default.SpectatorOverlay=None;
+  if(!TmpHUD_Effects[0].bNearDeath) BaseHUD.Default.NearDeathOverlay=None;
+  if(!TmpHUD_Effects[0].bFireOverlay) BaseHUD.Default.FireOverlay=None;
+  if(!TmpHUD_Effects[0].bShittySepia) BaseHUD.Default.VisionOverlay=None;
   if(!TmpHUD_Effects[0].bDoorUseMessage) class'WaitingMessage'.Default.DoorMessage="";
   if(!TmpHUD_Effects[0].bDoorSealedMessage) class'WaitingMessage'.Default.WeldedShutMessage="";
   if(!TmpHUD_Effects[0].bZedTimeMessage) class'WaitingMessage'.Default.ZEDTimeActiveMessage="";
@@ -161,7 +169,7 @@ simulated function MutLog(string s)
 defaultproperties
 {
   GroupName="KF-HUDEffectsMut"
-  FriendlyName="HUD Effects Disabler - v1.4"
+  FriendlyName="HUD Effects Disabler - v1.5"
   Description="Disable annoying HUD effects; Made by Flame, Essence, Dr.Terv & Vel-San."
   bAlwaysRelevant=True
   RemoteRole=ROLE_SimulatedProxy

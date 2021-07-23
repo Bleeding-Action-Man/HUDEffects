@@ -25,7 +25,7 @@ Flare + Dual Flare revolvers
 
 [h1][b][u]Important Notes[/u][/b][/h1]
 
-- You will still see the film grain ONLY when you are in lobby, once you start the game it will be gone from spectator/death screen
+- You might still see the film grain ONLY when you are in lobby, once you start the game it will be gone from spectator/death screen
 - Client logs might be polluted with 'No Material Found' messages. Server Logs won't have this issue because the mutator doesn't run on the servers at all
 
 [h1][b][u]Whitelist Status[/u][/b][/h1]
@@ -82,4 +82,4 @@ aWeapon_Effects[0]=(bSmokeTrail=false)
 
 [h1][b][u]Manual Download Links (Recommended)[/u][/b][/h1]
 
-Github: https://github.com/Vel-San/HUDEffects/releases/tag/v1.4
+Github: https://github.com/Vel-San/HUDEffects/releases/

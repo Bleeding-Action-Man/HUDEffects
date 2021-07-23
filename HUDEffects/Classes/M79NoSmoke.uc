@@ -6,8 +6,6 @@ class M79NoSmoke extends M79GrenadeProjectile;
 // Override to remove smoke on ALL CLIENTS and not just dedicated servers
 simulated function PostBeginPlay()
 {
-  local rotator SmokeRotation;
-
   BCInverse = 1 / BallisticCoefficient;
 
   OrigLoc = Location;

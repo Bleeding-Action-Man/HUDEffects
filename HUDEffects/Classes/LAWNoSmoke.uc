@@ -6,8 +6,6 @@ class LAWNoSmoke extends LAWProj;
 // Override to remove smoke on ALL CLIENTS and not just dedicated servers
 simulated function PostBeginPlay()
 {
-  local rotator SmokeRotation;
-
   BCInverse = 1 / BallisticCoefficient;
 
   OrigLoc = Location;
