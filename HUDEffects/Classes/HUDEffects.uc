@@ -48,7 +48,7 @@ var ZED_Effects TmpZED_Effects[COUNT];
 var Weapon_Effects TmpWeapon_Effects[COUNT];
 var Special_Requested_Weapons TmpRequested_Weapons_Effects[COUNT];
 
-var config string sHUDType;
+var string sHUDType;
 
 replication
 {
@@ -61,7 +61,12 @@ replication
 // Disable Selected options Before player starts
 simulated function PostBeginPlay()
 {
-  if (Level.NetMode != NM_Client) MutLog("-----|| Detected HUD: "$KFGameType(Level.Game).HUDType$" ||-----");
+  if (Level.NetMode != NM_Client)
+  {
+    MutLog("-----|| Detected HUD: "$KFGameType(Level.Game).HUDType$" ||-----");
+    sHUDType = KFGameType(Level.Game).HUDType;
+  }
+
   setTimer(1, false);
 }
 
@@ -182,7 +187,7 @@ simulated function MutLog(string s)
 defaultproperties
 {
   GroupName="KF-HUDEffectsMut"
-  FriendlyName="HUD Effects Disabler - v1.6"
+  FriendlyName="HUD Effects Disabler - v1.7"
   Description="Disable annoying HUD effects; Made by Flame, Essence, Dr.Terv & Vel-San."
   bAlwaysRelevant=True
   RemoteRole=ROLE_SimulatedProxy
