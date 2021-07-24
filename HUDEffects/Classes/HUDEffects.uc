@@ -1,6 +1,6 @@
 // Written by Dr.TerV for killingfloor.ru
 // Fixed by Essence & Vel-San
-// Last Update: April 9th 2021
+// Added/Improved features by Vel-San
 // Downsides:
 // - Server is Grey-listed (Get rekt I guess)
 // - Client log will be polluted with 'Material Not found' for missing overlays
