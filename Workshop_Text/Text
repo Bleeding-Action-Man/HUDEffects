@@ -23,6 +23,12 @@ LAW
 Flare + Dual Flare revolvers
 [/code]
 
+[b]Community Requested Weapon Related[/b]
+
+[code]
+- Steam Punk Thompson (Dr.) Muzzle Smoke
+[/code]
+
 [h1][b][u]Important Notes[/u][/b][/h1]
 
 - You might still see the film grain ONLY when you are in lobby, once you start the game it will be gone from spectator/death screen
@@ -47,6 +53,15 @@ Flare + Dual Flare revolvers
 aHUD_Effects[0]=(bSpectatorOverlay=false,bNearDeath=false,bFireOverlay=false,bShittySepia=false,bDoorUseMessage=false,bDoorSealedMessage=false,bZedTimeMessage=false)
 aZED_Effects[0]=(bVomitScreen=false,bSlashOverlay=false)
 aWeapon_Effects[0]=(bSmokeTrail=false)
+aRequested_Weapons_Effects[0]=(bSPThompsonNoSmoke=false)
+# In case you have a custom HUD like SP, ScrN, ColorfulHUD etc... Replace the value below
+# NOTE: You can always check your Server Log, the "HUD TYPE" will be printed by this mutator ;)
+# I can only give you the name of HUD
+# ServerPerks = ServerPerks.SRHUDKillingFloor
+# ScrN = ScrnBalanceSrv.ScrnHUD
+# ColorfulHUD = ColorfulHUD.ColorfulHUD_Base
+# Vanilla = KFMod.HUDKillingFloor
+sHUDType=KFMod.HUDKillingFloor
 ############# Explanation of Variables down below #############
 ############# HUD Related #############
 # bSpectatorOverlay: Removes the Grain filter that shows when you die, or in lobby, or in spectator mode
@@ -62,6 +77,8 @@ aWeapon_Effects[0]=(bSmokeTrail=false)
 # bSlashOverlay: Removes Siren/Stalker slash overlay
 ############# Weapon Related #############
 # bSmokeTrail: Smoke that shows after e.g. M32 Grenade Launcher, M79 Grenade Launcher, LAW
+############# Community Requested Weapons Related #############
+# SPThompsonNoSmoke: Removes the barrel smoke when you are firing witht the weapon
 [/code]
 
 [h1][b][u]File Names[/u][/b][/h1]
